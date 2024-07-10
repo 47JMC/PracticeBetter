@@ -21,14 +21,18 @@ class Github(commands.Cog):
     @github_group.command(name="user", description="Gives data about a github user")
     @app_commands.allowed_installs(guilds=False, users=True)
     @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+    @app_commands.describe(username="The username of the github account you're searching for")
     async def fetch_user_data(self, interaction: discord.Interaction, username: str):
         data = self.fetch_data(f"https://api.github.com/users/{username}")
+        repo_data = self.fetch_data(f"https://api.github.com/users/{username}/repos")
         
         if data is None or data.get("message") == "Not Found":
             embed = discord.Embed(title="User Not Found", color=discord.Color.red())
             embed.add_field(name="Error", value="The user you're looking for doesn't exist.")
             await interaction.response.send_message(embed=embed)
             return
+        
+        # User information
 
         username = data.get("name") or data.get("login")
         avatar_img = data.get("avatar_url")
@@ -40,6 +44,13 @@ class Github(commands.Cog):
         followers = data.get("followers")
         following = data.get("following")
 
+        repos = []
+        # Repository information
+        for repo in range(len(repo_data)):
+            repo_name = repo_data[repo].get("name")
+            repo_url = repo_data[repo].get("html_url")
+            repos.append(f"[{repo_name}]({repo_url})")
+
         embed = discord.Embed(title=f"{username}'s Github profile", color=discord.Color.brand_green())
         embed.add_field(name="Bio", value=bio)
         embed.add_field(name="Email", value=email, inline=False)
@@ -50,11 +61,14 @@ class Github(commands.Cog):
         embed.add_field(name="Public Gists", value=public_gists, inline=False)
         embed.set_thumbnail(url=avatar_img)
 
+        repo_embed = discord.Embed(title=f"{username}'s Repositories", description=" | ".join(repos))
         await interaction.response.send_message(embed=embed)
+        await interaction.followup.send(embed=repo_embed)
 
     @github_group.command(name="repo", description="Check information about a github repository")
     @app_commands.allowed_installs(guilds=False, users=True)
     @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+    @app_commands.describe(owner="The username of the owner of the repository", repo_name="The name of the repository")
     async def repo_info(self, interaction: discord.Interaction, owner: str, repo_name: str):
         data = self.fetch_data(f"https://api.github.com/repos/{owner}/{repo_name}")
         commits = self.fetch_data(f"https://api.github.com/repos/{owner}/{repo_name}/commits/main")
