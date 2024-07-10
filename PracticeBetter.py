@@ -115,6 +115,7 @@ async def bot_info(ctx):
     embed.add_field(name="Version", value="v1")
     embed.add_field(name="Servers", value=len(bot.guilds) ,inline=False)
     embed.add_field(name="Latency", value=round(bot.latency * 1000), inline=True)
+    embed.add_field(name="Github", value="Im finnally open source on [Github!](https://github.com/47JMC/PracticeBetter)")
     embed.set_footer(text="Library -> discord.py", icon_url="https://images.opencollective.com/discordpy/25fb26d/logo/256.png")
 
     await ctx.send(embed=embed)
