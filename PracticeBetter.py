@@ -1,8 +1,6 @@
 import discord # Discord API
 import os # OS Access
 import config # Config
-import requests # Requests API
-import random # Random
 import asyncio # Asyncio Library
 from discord.ext import commands
 from discord import app_commands
