@@ -1,6 +1,8 @@
 import discord # Discord API
 import os # OS Access
 import config # Config
+import requests # Requests API
+import random # Random
 import asyncio # Asyncio Library
 from discord.ext import commands
 from discord import app_commands
@@ -141,10 +143,10 @@ async def mass_ping(interaction: discord.Interaction, user: discord.User, times:
 
 @extension_group.command(name="load", description="Staff only command")
 async def exetension_load(interaction: discord.Interaction, extension: str):
-    if is_bot_staff_member(interaction.user.id):
+    if await is_bot_staff_member(interaction.user.id):
         # User is staff
         await bot.load_extension(f"cogs.{extension.lower()}")
-        await interaction.response.send_message(f"Extension {extension} has been loaded.")
+        await interaction.response.send_message(f"Extension {extension} has been loaded.", ephemeral=True)
     else:
         embed = discord.Embed(title="Acess denied", color=discord.Color.red())
         embed.add_field(name="Error", value="You do not have permission to use this command.")
@@ -152,10 +154,10 @@ async def exetension_load(interaction: discord.Interaction, extension: str):
 
 @extension_group.command(name="unload", description="Staff only command")
 async def extension_unload(interaction: discord.Interaction, extension: str):
-    if is_bot_staff_member(interaction.user.id):
+    if await is_bot_staff_member(interaction.user.id):
         # User is staff
         await bot.unload_extension(f"cogs.{extension.lower()}")
-        await interaction.response.send_message(f"Extension {extension} has been unloaded.")
+        await interaction.response.send_message(f"Extension {extension} has been unloaded.", ephemeral=True)
     else:
         embed = discord.Embed(title="Acess denied", color=discord.Color.red())
         embed.add_field(name="Error", value="You do not have permission to use this command.")
@@ -163,10 +165,10 @@ async def extension_unload(interaction: discord.Interaction, extension: str):
 
 @extension_group.command(name="reload", description="Staff only command")
 async def reload(interaction: discord.Interaction, extension: str):
-    if is_bot_staff_member(interaction.user.id):
+    if await is_bot_staff_member(interaction.user.id):
         # User is staff
         await bot.reload_extension(f"cogs.{extension.lower()}")
-        await interaction.response.send_message(f"Extension {extension} has been reloaded.")
+        await interaction.response.send_message(f"Extension {extension} has been reloaded.", ephemeral=True)
     else:
         embed = discord.Embed(title="Acess denied", color=discord.Color.red())
         embed.add_field(name="Error", value="You do not have permission to use this command.")
