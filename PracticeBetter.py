@@ -128,7 +128,7 @@ async def suggestion(interaction: discord.Interaction):
 @app_commands.allowed_installs(guilds=False, users=True)
 @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
 async def mass_ping(interaction: discord.Interaction, user: discord.User, times: int):
-    if config.is_bot_staff_member(interaction.user.id):
+    if is_bot_staff_member(interaction.user.id):
         if not times > 90:
             await interaction.response.defer()
             message_without_brackets = user.mention * times
