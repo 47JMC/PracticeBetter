@@ -20,6 +20,9 @@ intents.message_content = True
 bot = commands.Bot(command_prefix='pb -', intents=intents)
 bot.remove_command("help")
 
+extensions = {
+
+}
 
 class SuggestionModal(discord.ui.Modal, title="Send us your suggestion!"):
     suggestion_title = discord.ui.TextInput(
@@ -101,6 +104,7 @@ async def is_bot_staff_member(user_id: str):
 async def load():
     for file in os.listdir("./cogs"):
        if file.endswith(".py"):
+        extensions.update({file[:-3] : "Loaded"})
         await bot.load_extension(f"cogs.{file[:-3]}")
 
 async def main ():
@@ -147,6 +151,7 @@ async def exetension_load(interaction: discord.Interaction, extension: str):
     if await is_bot_staff_member(interaction.user.id):
         # User is staff
         await bot.load_extension(f"cogs.{extension.lower()}")
+        extensions.update({extension.lower() : "Loaded"})
         await interaction.response.send_message(f"Extension {extension} has been loaded.", ephemeral=True)
     else:
         embed = discord.Embed(title="Acess denied", color=discord.Color.red())
@@ -158,6 +163,7 @@ async def extension_unload(interaction: discord.Interaction, extension: str):
     if await is_bot_staff_member(interaction.user.id):
         # User is staff
         await bot.unload_extension(f"cogs.{extension.lower()}")
+        extensions.update({extension.lower() : "Unloaded"})
         await interaction.response.send_message(f"Extension {extension} has been unloaded.", ephemeral=True)
     else:
         embed = discord.Embed(title="Acess denied", color=discord.Color.red())
@@ -174,5 +180,9 @@ async def reload(interaction: discord.Interaction, extension: str):
         embed = discord.Embed(title="Acess denied", color=discord.Color.red())
         embed.add_field(name="Error", value="You do not have permission to use this command.")
         await interaction.response.send_message(embed=embed)
+
+@extension_group.command(name="list", description="Staff only command")
+async def extension_list(interaction: discord.Interaction):
+    await interaction.response.send_message(f"```{extensions}```")
 
 asyncio.run(main())
