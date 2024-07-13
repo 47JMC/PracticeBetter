@@ -32,7 +32,7 @@ Step 14: In [Discord Developer Portal](https://discord.com/developers/applicatio
 
 Step 15: Go to the folder in which [PracticeBetter.py](PracticeBetter.py) and select `Copy Path`. Now Open a terminal and type `cd {path}`. Replace `{path}` with the path you just copied and hit enter. now run `python PracticeBetter.py` and your bot is Up and Running untill you close the terminal
 
-<--------------------------------------------------------------------------------------------------------------------------------------------->
+-----------------------------------------------------------------------------------------------------------------------------------------------
 
 I Hope you Enjoy the bot!
 🚑 Anyway that was the guide! See ya!
