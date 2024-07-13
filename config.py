@@ -2,6 +2,6 @@
 #  Configurations
 #####################
 
-Server_ID = 1204376536506171422
-Staff_Channel_ID = 1213740196256813056
+Server_ID = None # Suggestion Notification Server ID (Set to your desired Discord Server id)
+Staff_Channel_ID = None # Suggestion Notification Channel ID (Set to your desired channel id)
 Bot_Token = ""
