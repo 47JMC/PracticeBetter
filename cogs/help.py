@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from discord import app_commands
 
 class HelpCommand(commands.Cog):
     def __init__(self, bot):
@@ -7,6 +8,8 @@ class HelpCommand(commands.Cog):
 
     # Help Command
     @commands.hybrid_command(name="help", description="The help command")
+    @app_commands.allowed_installs(guilds=False, users=True)
+    @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
     async def pb_help(self, ctx):
         main_embed = discord.Embed(title="Help Menu", description="All available commands", color=0x884EA0)
         main_embed.add_field(name="Select a category", value="Please select a category to view the commands")
@@ -35,6 +38,8 @@ class HelpCommandDropDown(discord.ui.Select):
         super().__init__(placeholder="Select a category", min_values=1, max_values=1, options=options)
 
     async def callback(self, interaction: discord.Interaction):
+        await interaction.response.defer()
+
         option = self.values[0]
         embed = None
 
@@ -52,6 +57,9 @@ class HelpCommandDropDown(discord.ui.Select):
         elif option == "staff":
             embed = discord.Embed(title="Staff Commands", description="All available staff commands", color=0x884EA0)
             embed.add_field(name="</massping:1257879750274453544>", value="Nuclear weapon in discord", inline=False)
+            embed.add_field(name="</extension load:1260411190698446951>", value="Staff only command", inline=True)
+            embed.add_field(name="</extension unload:1260411190698446951>", value="Staff only command", inline=True)
+            embed.add_field(name="</extension reload:1260411190698446951>", value="Staff only command", inline=False)
         else:
             embed = discord.Embed(title="Unknown Category", description="This category is not recognized", color=0x884EA0)
 
