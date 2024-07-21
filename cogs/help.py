@@ -45,7 +45,8 @@ class HelpCommandDropDown(discord.ui.Select):
 
         if option == "moderation":
             embed = discord.Embed(title="Moderation Commands", description="All available moderation commands", color=0x884EA0)
-            embed.add_field(name="Coming Soon", value="Coming Soon", inline=False)
+            embed.add_field(name="</mute:1264249166935359600>", value="Mute a user in a discord server", inline=False)
+            embed.add_field(name="</punishments:1264571979659350076>", value="List the punishments of a user in a discord server", inline=False)
         elif option == "information":
             embed = discord.Embed(title="Information Commands", description="All available information commands", color=0x884EA0)
             embed.add_field(name="</info:1258452114611638384>", value="Displays Information about the bot", inline=False)
