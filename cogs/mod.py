@@ -32,9 +32,7 @@ class Moderation(commands.Cog):
             else:
                 if muted_role not in member.roles:
                     await member.add_roles(muted_role)
-                    embed = discord.Embed(title=f"You were muted in {guild.name}")
-                    embed.add_field(name=f"You were muted in {guild.name} for {reason}")
-                    await member.send(embed=embed)
+                    
                     cursor.execute("INSERT INTO modlogs (user_id, mod_id, guild_id, punish_type, reason) VALUES (?,?,?,?,?)", (member.id, mod.id, guild.id, punish_type, reason))
                     connection.commit()
                     if reason:
@@ -43,9 +41,6 @@ class Moderation(commands.Cog):
                         await interaction.response.send_message(f"{member.mention} has been muted.", ephemeral=True)
                 else:
                     await member.remove_roles(muted_role)
-                    embed = discord.Embed(title=f"You were unmuted in {guild.name}")
-                    embed.add_field(name=f"You were unmuted in {guild.name}")
-                    await member.send(embed=embed)
                     await interaction.response.send_message(f"{member.mention} has been unmuted.", ephemeral=True)
         else:
             await interaction.response.send_message(content="You don't have the permission to mute members.", ephemeral=True)
@@ -56,13 +51,12 @@ class Moderation(commands.Cog):
             guild = interaction.guild
             mod = interaction.user
             punish_type = "Warn"
-            # Send the user the warning message
-            embed = discord.Embed(title=f"You were warned in {guild.name}")
-            embed.add_field(name=f"You were warned in {guild.name} for {reason}")
-            await member.send(embed=embed)
+            
             # Add the warning to the database
             cursor.execute("INSERT INTO modlogs (user_id, mod_id, guild_id, punish_type, reason) VALUES (?,?,?,?,?)", (member.id, mod.id, guild.id, punish_type, reason))
             connection.commit()
+
+            await interaction.response.send_message(f"{member.mention} has been warned", ephemeral=True)
         else:
             await interaction.response.send_message(content="You don't have the permission to warn members.", ephemeral=True)
 
