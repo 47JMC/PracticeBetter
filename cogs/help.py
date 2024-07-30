@@ -45,6 +45,7 @@ class HelpCommandDropDown(discord.ui.Select):
 
         if option == "moderation":
             embed = discord.Embed(title="Moderation Commands", description="All available moderation commands", color=0x884EA0)
+            embed.add_field(name="</warn:1267863875420819526>", value="Warns a user in a discord server")
             embed.add_field(name="</mute:1264249166935359600>", value="Mute a user in a discord server", inline=False)
             embed.add_field(name="</punishments:1264571979659350076>", value="List the punishments of a user in a discord server", inline=False)
         elif option == "information":
