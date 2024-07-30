@@ -50,23 +50,21 @@ class Moderation(commands.Cog):
         else:
             await interaction.response.send_message(content="You don't have the permission to mute members.", ephemeral=True)
 
-        @app_commands.command(name="warn", description="Warn a user in the server")
-        async def user_warn(self, interaction: discord.Interaction, member: discord.Member, reason: str = None):
-            if interaction.user.guild_permissions.mute_members:
-                guild = interaction.guild
-                mod = interaction.user
-                punish_type = "Warn"
-
-                # Send the user the warning message
-                embed = discord.Embed(title=f"You were warned in {guild.name}")
-                embed.add_field(name=f"You were warned in {guild.name} for {reason}")
-                await member.send(embed=embed)
-
-                # Add the warning to the database
-                cursor.execute("INSERT INTO modlogs (user_id, mod_id, guild_id, punish_type, reason) VALUES (?,?,?,?,?)", (member.id, mod.id, guild.id, punish_type, reason))
-                connection.commit()
-            else:
-                await interaction.response.send_message(content="You don't have the permission to warn members.", ephemeral=True)
+    @app_commands.command(name="warn", description="Warn a user in the server")
+    async def user_warn(self, interaction: discord.Interaction, member: discord.Member, reason: str = None):
+        if interaction.user.guild_permissions.mute_members:
+            guild = interaction.guild
+            mod = interaction.user
+            punish_type = "Warn"
+            # Send the user the warning message
+            embed = discord.Embed(title=f"You were warned in {guild.name}")
+            embed.add_field(name=f"You were warned in {guild.name} for {reason}")
+            await member.send(embed=embed)
+            # Add the warning to the database
+            cursor.execute("INSERT INTO modlogs (user_id, mod_id, guild_id, punish_type, reason) VALUES (?,?,?,?,?)", (member.id, mod.id, guild.id, punish_type, reason))
+            connection.commit()
+        else:
+            await interaction.response.send_message(content="You don't have the permission to warn members.", ephemeral=True)
 
     @app_commands.command(name="punishments", description="Shows list of punishments of a member")
     async def list_punishments(self, interaction: discord.Interaction, member: discord.Member):
