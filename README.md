@@ -11,7 +11,7 @@ Lets Begin!
 -------
 
 - Step 1: Install [python](https://python.org)
-- Step 2: Install the necesary libraries by running `pip install -r reqrequirments.txt`
+- Step 2: Install the necesary libraries by running `pip install -r requirments.txt`
 - Step 3: Create an application in [Discord Developer Portal](https://discord.com/developers/applications)
 - Step 4: Go to the bot section and create a bot name it whatever you want
 - Step 5: Click the reset token button on the bot section
